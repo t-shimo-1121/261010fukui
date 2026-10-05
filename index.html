@@ -152,11 +152,6 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
 }
 .tag .ic{font-size:.95rem;}
 .card-title{font-family:var(--font-display);font-weight:700;font-size:1.02rem;line-height:1.3;}
-.card-sub{
-  flex-basis:100%;font-size:.75rem;color:var(--ink-2);letter-spacing:.02em;
-  display:flex;align-items:center;gap:.3rem;
-}
-.card-sub .ic{font-size:.9rem;color:var(--c);}
 
 .day1{--c:hsl(var(--h-d1),46%,32%);--c-bg:hsl(var(--h-d1),42%,94%);}
 .day2{--c:hsl(var(--h-d2),46%,36%);--c-bg:hsl(var(--h-d2),42%,94%);}
@@ -166,7 +161,6 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
 /* ───────── 山データ（登山日のカード上部） ───────── */
 .mt{padding:.75rem .75rem .8rem;border-bottom:1px dashed var(--line);}
 .mt-h{font-size:.74rem;font-weight:700;color:var(--c);letter-spacing:.06em;margin-bottom:.35rem;}
-.mt-route{font-size:.82rem;color:var(--ink-2);line-height:1.55;}
 .ftable{width:100%;border-collapse:collapse;margin:.5rem 0 .15rem;}
 .ftable th{
   font-family:var(--font-body);font-weight:700;font-size:.68rem;color:var(--ink-3);
@@ -177,6 +171,7 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   padding:.5rem .3rem;border-bottom:1px solid var(--line-soft);font-size:.86rem;
   vertical-align:top;
 }
+.ftable td small{display:block;font-size:.72rem;color:var(--ink-3);font-weight:400;line-height:1.45;margin-top:.15rem;}
 .ftable td:first-child{color:var(--ink-3);font-size:.74rem;white-space:nowrap;padding-top:.6rem;}
 .ftable td:last-child{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap;color:var(--ink);}
 .ftable tfoot td{
@@ -391,7 +386,6 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
     <div class="card pack">
       <div class="card-head">
         <span class="tag"><svg class="ic"><use href="#i-bag"/></svg>持ち物</span>
-        <div class="card-title">荷造りリスト</div>
         <span class="counter"></span>
       </div>
 
@@ -409,8 +403,7 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
       <div class="item"><span class="box"></span><span class="txt">長袖上下・防水シューズ</span></div>
       <div class="item"><span class="box"></span><span class="txt">下着上下×2・靴下×2・パジャマ上下</span></div>
       <div class="item"><span class="box"></span><span class="txt">タオル・ハンカチ・ネット×3</span></div>
-      <div class="item"><span class="box"></span><span class="txt">帽子・防水手袋・防寒着</span></div>
-      <div class="item"><span class="box"></span><span class="txt">レイン上下</span></div>
+      <div class="item"><span class="box"></span><span class="txt">レイン上下・帽子・防水手袋・防寒着</span></div>
       <div class="item"><span class="box"></span><span class="txt">リュック・サブバッグ・カラビナ</span></div>
       <div class="item"><span class="box"></span><span class="txt">トイレ・清拭・虫除け・熊鈴・ブラシ</span></div>
 
@@ -426,7 +419,6 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
     <div class="card pack">
       <div class="card-head">
         <span class="tag"><svg class="ic"><use href="#i-coin"/></svg>費用</span>
-        <div class="card-title">概算まとめ</div>
       </div>
 
       <div class="mt">
@@ -435,11 +427,11 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
           <thead><tr><th>日付</th><th>項目</th><th>金額</th></tr></thead>
           <tbody>
             <tr><td>10/10</td><td>特急 新潟→上越妙高</td><td>－</td></tr>
-            <tr><td>10/10</td><td>新幹線 上越妙高→福井</td><td>21,420円</td></tr>
-            <tr><td>10/10</td><td>WOW RIDE＋観覧券</td><td>10,500円</td></tr>
-            <tr><td>10/10</td><td>野外恐竜博物館ツアー</td><td>3,250円</td></tr>
-            <tr><td>10/12</td><td>新幹線 芦原温泉→上越妙高</td><td>20,320円</td></tr>
-            <tr><td>10/12</td><td>特急 上越妙高→新潟</td><td>10,040円</td></tr>
+            <tr><td>10/10</td><td>新幹線 上越妙高→福井<small>大人17,140円／小人4,280円</small></td><td>21,420円</td></tr>
+            <tr><td>10/10</td><td>WOW RIDE＋観覧券<small>大人2・小人1、観覧券つき</small></td><td>10,500円</td></tr>
+            <tr><td>10/10</td><td>野外恐竜博物館ツアー<small>大人1,300円×2／小人650円</small></td><td>3,250円</td></tr>
+            <tr><td>10/12</td><td>新幹線 芦原温泉→上越妙高<small>大人16,260円／小人4,060円</small></td><td>20,320円</td></tr>
+            <tr><td>10/12</td><td>特急 上越妙高→新潟<small>大人8,040円／小人2,000円</small></td><td>10,040円</td></tr>
           </tbody>
           <tfoot><tr><td colspan="2">小計（判明分）</td><td>65,530円</td></tr></tfoot>
         </table>
@@ -472,9 +464,8 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   <div class="tab-panel" id="day1">
     <div class="card day1" data-date="2026-10-10">
       <div class="card-head">
-        <span class="tag"><svg class="ic"><use href="#i-foot"/></svg>Day 1・10/10（土）</span>
+        <span class="tag"><svg class="ic"><use href="#i-foot"/></svg>1日目・10/10（土）</span>
         <div class="card-title">恐竜博物館へ</div>
-        <div class="card-sub"><svg class="ic"><use href="#i-lodge"/></svg>泊：勝山ニューホテル</div>
       </div>
       <div class="trail">
         <div class="tl" data-t="06:00"><div class="t-start">6:00</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-sun"/></svg></div><div class="t-sum">起床・出発準備</div><div class="t-det">荷物は前夜のうちに玄関へ</div></div>
@@ -482,13 +473,13 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
         <div class="tl" data-t="07:15"><div class="t-start">7:15</div><div class="t-dur">0:20</div><div class="t-ico"><svg class="ic"><use href="#i-clock"/></svg></div><div class="t-sum">新潟駅 着</div><div class="t-det">きっぷの確認</div></div>
         <div class="tl" data-t="07:35"><div class="t-start">7:35</div><div class="t-dur">2:04</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき2号 新潟→上越妙高</div><div class="t-det">新井行</div></div>
         <div class="tl" data-t="09:39"><div class="t-start">9:39</div><div class="t-dur">0:18</div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">上越妙高駅 乗り換え</div><div class="t-det">新幹線ホームへ移動</div></div>
-        <div class="tl" data-t="09:57"><div class="t-start">9:57</div><div class="t-dur">1:04</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか553号 妙高→金沢</div><div class="t-det">北陸新幹線・金沢行。6号車13番A・B・C席（予約番号 E92251）。上越妙高→福井 通し運賃21,420円（おとな17,140円・こども4,280円）</div></div>
+        <div class="tl" data-t="09:57"><div class="t-start">9:57</div><div class="t-dur">1:04</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか553号 妙高→金沢</div><div class="t-det">北陸新幹線・金沢行。6号車13番A・B・C席（予約番号 E92251）</div></div>
         <div class="tl" data-t="11:01"><div class="t-start">11:01</div><div class="t-dur">0:04</div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">金沢駅 乗り換え</div><div class="t-det"><span class="hl">乗換4分</span>。新幹線ホーム内で つるぎ19号 へ</div></div>
         <div class="tl" data-t="11:05"><div class="t-start">11:05</div><div class="t-dur">0:35</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">つるぎ19号（金沢→福井）</div><div class="t-det">北陸新幹線・敦賀行。4号車3番A・B・C席（予約番号 E92251、運賃ははくたか553号の項を参照）</div></div>
         <div class="tl" data-t="11:40"><div class="t-start">11:40</div><div class="t-dur">0:10</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">福井駅 東口3番乗り場へ</div><div class="t-det"><span class="warn">乗換10分</span>。下車後まっすぐ向かう</div></div>
-        <div class="tl" data-t="11:50"><div class="t-start">11:50</div><div class="t-dur">0:55</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">WOW RIDEバス福井→博物館</div><div class="t-det">2号車・予約済み（照会番号 0065815）。大人2・小人1、恐竜博物館の観覧券つきで10,500円</div></div>
+        <div class="tl" data-t="11:50"><div class="t-start">11:50</div><div class="t-dur">0:55</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">WOW RIDEバス福井→博物館</div><div class="t-det">2号車・予約済み（照会番号 0065815）。大人2・小人1、恐竜博物館の観覧券つき</div></div>
         <div class="tl" data-t="12:45"><div class="t-start">12:45</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum">到着・野外恐竜博物館の受付</div><div class="t-det">集合までの時間で館内を下見</div></div>
-        <div class="tl" data-t="13:30"><div class="t-start">13:30</div><div class="t-dur">2:00</div><div class="t-ico"><svg class="ic"><use href="#i-foot"/></svg></div><div class="t-sum">野外ツアー「1班」</div><div class="t-det">化石発掘体験。一般1,300円×2・小学生650円×1＝3,250円。<span class="warn">この券では常設展を観覧できない</span>ので、常設展はWOW RIDEの観覧券で入る</div></div>
+        <div class="tl" data-t="13:30"><div class="t-start">13:30</div><div class="t-dur">2:00</div><div class="t-ico"><svg class="ic"><use href="#i-foot"/></svg></div><div class="t-sum">野外ツアー「1班」</div><div class="t-det">化石発掘体験。<span class="warn">この券では常設展を観覧できない</span>ので、常設展はWOW RIDEの観覧券で入る</div></div>
         <div class="tl" data-t="15:30"><div class="t-start">15:30</div><div class="t-dur">1:30</div><div class="t-ico"><svg class="ic"><use href="#i-eye"/></svg></div><div class="t-sum">常設展（本館）を観覧</div><div class="t-det">WOW RIDE のオプションで買った観覧券を使う。フクイラプトルなど</div></div>
         <div class="tl" data-t="17:00"><div class="t-start">17:00</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-taxi"/></svg></div><div class="t-sum">タクシー（博物館→ホテル）</div><div class="t-det">閉館に合わせて館内から配車。約10分</div></div>
         <div class="tl stay" data-t="17:15"><div class="t-start">17:15</div><div class="t-dur">4:45</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum">勝山ニューホテル</div><div class="t-det">予約番号 RYa0n4rwpg／0779-88-2110（勝山市片瀬町2-114）。ニュースタンダードツイン、大人2・子供1。予約上のチェックインは18:00。朝食付6:30〜10:00、大浴場17:00〜23:00。<span class="warn">夕食なし</span>。夕食はハニー新鮮館かコンビニで調達。<span class="warn">翌日7:00のタクシーを予約</span>。登山準備</div></div>
@@ -509,16 +500,13 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   <div class="tab-panel" id="day2">
     <div class="card day2" data-date="2026-10-11">
       <div class="card-head">
-        <span class="tag"><svg class="ic"><use href="#i-mtn"/></svg>Day 2・10/11（日）</span>
+        <span class="tag"><svg class="ic"><use href="#i-mtn"/></svg>2日目・10/11（日）</span>
         <div class="card-title">荒島岳 登山 → 福井駅前</div>
-        <div class="card-sub"><svg class="ic"><use href="#i-lodge"/></svg>泊：天然温泉 御宿 野乃 福井</div>
       </div>
       <div class="mt">
-        <div class="mt-h">山データ　日本百名山 通算15座目</div>
-        <div class="mt-route">荒島岳 1,523m ／ 勝原（かどはら）コース往復 8.7km。計画は合計7時間36分（休憩45分込み）。日出 05:56 ／ 日入 17:24</div>
         <div class="stats stats-3">
-          <div class="s"><div class="n">1,523<span class="u">m</span></div><div class="l">標高<br>日本百名山</div></div>
-          <div class="s"><div class="n">7:36</div><div class="l">コースタイム<br>休憩込み</div></div>
+          <div class="s"><div class="n">1,523<span class="u">m</span></div><div class="l">標高<br>百名山15座目</div></div>
+          <div class="s"><div class="n">7:36</div><div class="l">コースタイム<br>休憩45分</div></div>
           <div class="s"><div class="n">28</div><div class="l">コース定数<br>きつい</div></div>
         </div>
       </div>
@@ -565,9 +553,8 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   <div class="tab-panel" id="day3">
     <div class="card day3" data-date="2026-10-12">
       <div class="card-head">
-        <span class="tag"><svg class="ic"><use href="#i-ship"/></svg>Day 3・10/12（月・祝）</span>
+        <span class="tag"><svg class="ic"><use href="#i-ship"/></svg>3日目・10/12（月・祝）</span>
         <div class="card-title">東尋坊 遊覧船 → 帰路</div>
-        <div class="card-sub"><svg class="ic"><use href="#i-clock"/></svg>新潟駅 15:07 着</div>
       </div>
       <div class="trail">
         <div class="tl" data-t="06:00"><div class="t-start">6:00</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-sun"/></svg></div><div class="t-sum">起床</div></div>
@@ -583,9 +570,9 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
         <div class="tl" data-t="10:17"><div class="t-start">10:17</div><div class="t-dur">0:07</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">徒歩（東尋坊→バス停）</div><div class="t-det">約418m</div></div>
         <div class="tl" data-t="10:24"><div class="t-start">10:24</div><div class="t-dur">0:41</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">バス［96］東尋坊→芦原温泉</div><div class="t-det">京福バス。三国・越前松島水族館・あわら湯のまち駅 経由</div></div>
         <div class="tl" data-t="11:05"><div class="t-start">11:05</div><div class="t-dur">0:24</div><div class="t-ico"><svg class="ic"><use href="#i-fork"/></svg></div><div class="t-sum">芦原温泉駅 乗り換え</div><div class="t-det">新幹線への乗換準備。<span class="hl">駅弁を調達</span></div></div>
-        <div class="tl" data-t="11:29"><div class="t-start">11:29</div><div class="t-dur">1:32</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか562号→上越妙高</div><div class="t-det">北陸新幹線・東京行。6号車7番A・B・C席（予約番号 E98725）。20,320円（おとな16,260円・こども4,060円）</div></div>
+        <div class="tl" data-t="11:29"><div class="t-start">11:29</div><div class="t-dur">1:32</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか562号→上越妙高</div><div class="t-det">北陸新幹線・東京行。6号車7番A・B・C席（予約番号 E98725）</div></div>
         <div class="tl" data-t="13:01"><div class="t-start">13:01</div><div class="t-dur">0:08</div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">上越妙高駅 乗り換え</div><div class="t-det">在来線特急ホームへ</div></div>
-        <div class="tl" data-t="13:09"><div class="t-start">13:09</div><div class="t-dur">1:58</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき3号 上越妙高→新潟</div><div class="t-det">1号車3番A・B席・4番A席（予約番号 E76137）。10,040円（おとな8,040円・こども2,000円）</div></div>
+        <div class="tl" data-t="13:09"><div class="t-start">13:09</div><div class="t-dur">1:58</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき3号 上越妙高→新潟</div><div class="t-det">1号車3番A・B席・4番A席（予約番号 E76137）</div></div>
         <div class="tl" data-t="15:07"><div class="t-start">15:07</div><div class="t-dur">0:23</div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum">新潟駅 到着</div><div class="t-det">駐車場で車を受け取り</div></div>
         <div class="tl stay" data-t="15:30"><div class="t-start">15:30</div><div class="t-dur">—</div><div class="t-ico"><svg class="ic"><use href="#i-car"/></svg></div><div class="t-sum">車で帰宅・自宅着</div><div class="t-det">お疲れさまでした</div></div>
       </div>
