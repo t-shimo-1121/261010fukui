@@ -243,23 +243,9 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
 }
 .hl{font-weight:700;color:var(--c);background:var(--c-bg);padding:.05rem .3rem;border-radius:5px;}
 .warn{font-weight:700;color:var(--alert);}
-a.tel,.copy{white-space:nowrap;}
-a.map,a.tel{color:inherit;text-decoration:underline dotted var(--c);text-decoration-thickness:2px;
+a.map{color:inherit;text-decoration:underline dotted var(--c);text-decoration-thickness:2px;
   text-underline-offset:4px;-webkit-tap-highlight-color:transparent;}
-a.map:active,a.tel:active{background:var(--c-bg);}
-.copy{
-  font:inherit;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.03em;
-  background:var(--panel);border:1px dashed var(--c);border-radius:6px;
-  padding:0 .35rem;margin:0 .1rem;line-height:1.5;cursor:pointer;-webkit-tap-highlight-color:transparent;
-}
-.copy:active,.copy.done{background:var(--c);color:var(--panel);border-style:solid;}
-.toast{
-  position:fixed;left:50%;bottom:calc(1.4rem + env(safe-area-inset-bottom));z-index:60;
-  transform:translate(-50%,.6rem);opacity:0;pointer-events:none;
-  background:var(--ink);color:var(--paper);font-size:.78rem;font-weight:700;
-  padding:.45rem 1rem;border-radius:999px;white-space:nowrap;transition:opacity .2s,transform .2s;
-}
-.toast.show{opacity:1;transform:translate(-50%,0);}
+a.map:active{background:var(--c-bg);}
 .tl.stay{background:hsla(var(--h-base),30%,50%,.05);}
 .tl.hike{background:var(--c-tint);}
 .tl.hike::before{ /* 登山区間は背骨を日の色で太く */
@@ -445,7 +431,8 @@ a.map:active,a.tel:active{background:var(--c-bg);}
 
     <div class="card pack">
       <div class="card-head">
-        <span class="tag"><svg class="ic"><use href="#i-bag"/></svg>持ち物</span>
+        <span class="tag only" aria-hidden="true"><svg class="ic"><use href="#i-bag"/></svg></span>
+        <div class="card-title">持ち物</div>
         <button class="fold" type="button" aria-pressed="false">済みを隠す</button>
         <span class="counter"></span>
       </div>
@@ -480,7 +467,8 @@ a.map:active,a.tel:active{background:var(--c-bg);}
 
     <div class="card pack">
       <div class="card-head">
-        <span class="tag"><svg class="ic"><use href="#i-coin"/></svg>費用</span>
+        <span class="tag only" aria-hidden="true"><svg class="ic"><use href="#i-coin"/></svg></span>
+        <div class="card-title">費用</div>
       </div>
 
       <div class="mt">
@@ -536,16 +524,16 @@ a.map:active,a.tel:active{background:var(--c-bg);}
         <div class="tl" data-t="07:15"><div class="t-start">7:15</div><div class="t-dur">0:20</div><div class="t-ico"><svg class="ic"><use href="#i-clock"/></svg></div><div class="t-sum">新潟駅 着</div><div class="t-det">きっぷの確認</div></div>
         <div class="tl" data-t="07:35"><div class="t-start">7:35</div><div class="t-dur">2:04</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき2号→上越妙高</div><div class="t-det">新井行</div></div>
         <div class="tl" data-t="09:39"><div class="t-start">9:39</div><div class="t-dur">0:18</div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">上越妙高駅 乗り換え</div><div class="t-det">新幹線ホームへ移動</div></div>
-        <div class="tl" data-t="09:57"><div class="t-start">9:57</div><div class="t-dur">1:04</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか553号→金沢</div><div class="t-det">北陸新幹線・金沢行。6号車13番A・B・C席。予約番号<button class="copy" data-copy="E92251">E92251</button></div></div>
+        <div class="tl" data-t="09:57"><div class="t-start">9:57</div><div class="t-dur">1:04</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか553号→金沢</div><div class="t-det">北陸新幹線・金沢行。6号車13番A・B・C席</div></div>
         <div class="tl" data-t="11:01"><div class="t-start">11:01</div><div class="t-dur"></div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">金沢駅 乗り換え</div><div class="t-det"><span class="hl">乗換4分</span>。新幹線ホーム内で つるぎ19号 へ</div></div>
-        <div class="tl" data-t="11:05"><div class="t-start">11:05</div><div class="t-dur">0:35</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">つるぎ19号→福井</div><div class="t-det">北陸新幹線・敦賀行。4号車3番A・B・C席。予約番号<button class="copy" data-copy="E92251">E92251</button></div></div>
+        <div class="tl" data-t="11:05"><div class="t-start">11:05</div><div class="t-dur">0:35</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">つるぎ19号→福井</div><div class="t-det">北陸新幹線・敦賀行。4号車3番A・B・C席</div></div>
         <div class="tl" data-t="11:40"><div class="t-start">11:40</div><div class="t-dur">0:10</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">徒歩→東口3番乗り場</div><div class="t-det"><span class="warn">乗換10分</span>。下車後まっすぐ向かう</div></div>
-        <div class="tl" data-t="11:50"><div class="t-start">11:50</div><div class="t-dur">0:55</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">WOW RIDE→恐竜博物館</div><div class="t-det">2号車・照会番号<button class="copy" data-copy="0065815">0065815</button>。大人2・小人1、恐竜博物館の観覧券つき</div></div>
+        <div class="tl" data-t="11:50"><div class="t-start">11:50</div><div class="t-dur">0:55</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">WOW RIDE→恐竜博物館</div><div class="t-det">2号車・予約済み。大人2・小人1、恐竜博物館の観覧券つき</div></div>
         <div class="tl" data-t="12:45"><div class="t-start">12:45</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum">到着・<a class="map" href="https://www.google.com/maps/search/?api=1&query=%E7%A6%8F%E4%BA%95%E7%9C%8C%E7%AB%8B%E6%81%90%E7%AB%9C%E5%8D%9A%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">野外恐竜博物館</a>の受付</div><div class="t-det">集合までの時間で館内を下見</div></div>
         <div class="tl" data-t="13:30"><div class="t-start">13:30</div><div class="t-dur">2:00</div><div class="t-ico"><svg class="ic"><use href="#i-foot"/></svg></div><div class="t-sum">野外ツアー「1班」</div><div class="t-det">化石発掘体験。<span class="warn">この券では常設展を観覧できない</span>ので、常設展はWOW RIDEの観覧券で入る</div></div>
         <div class="tl" data-t="15:30"><div class="t-start">15:30</div><div class="t-dur">1:30</div><div class="t-ico"><svg class="ic"><use href="#i-eye"/></svg></div><div class="t-sum">常設展（本館）を観覧</div><div class="t-det">WOW RIDE のオプションで買った観覧券を使う。フクイラプトルなど</div></div>
         <div class="tl" data-t="17:00"><div class="t-start">17:00</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-taxi"/></svg></div><div class="t-sum">タクシー→勝山ニューホテル</div><div class="t-det">閉館に合わせて館内から配車。約10分</div></div>
-        <div class="tl stay" data-t="17:15"><div class="t-start">17:15</div><div class="t-dur">4:45</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E5%8B%9D%E5%B1%B1%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%9B%E3%83%86%E3%83%AB" target="_blank" rel="noopener">勝山ニューホテル</a></div><div class="t-det">予約番号<button class="copy" data-copy="RYa0n4rwpg">RYa0n4rwpg</button>、☎<a class="tel" href="tel:0779882110">0779-88-2110</a>。ニュースタンダードツイン、大人2・子供1。予約上のチェックインは18:00。朝食付6:30〜10:00、大浴場17:00〜23:00。<span class="warn">夕食なし</span>。夕食はハニー新鮮館かコンビニで調達。<span class="warn">翌日7:00のタクシーを予約</span>。登山準備</div></div>
+        <div class="tl stay" data-t="17:15"><div class="t-start">17:15</div><div class="t-dur">4:45</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E5%8B%9D%E5%B1%B1%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%9B%E3%83%86%E3%83%AB" target="_blank" rel="noopener">勝山ニューホテル</a></div><div class="t-det">ニュースタンダードツイン、大人2・子供1。予約上のチェックインは18:00。朝食付6:30〜10:00、大浴場17:00〜23:00。<span class="warn">夕食なし</span>。夕食はハニー新鮮館かコンビニで調達。<span class="warn">翌日7:00のタクシーを予約</span>。登山準備</div></div>
         <div class="sun set" data-t="17:26"><div class="s-t">17:26</div><div class="s-d"></div><div>日の入</div></div>
         <div class="tl stay" data-t="22:00"><div class="t-start">22:00</div><div class="t-dur">8:00</div><div class="t-ico"><svg class="ic"><use href="#i-moon"/></svg></div><div class="t-sum">就寝</div><div class="t-det">翌朝6:00起床</div></div>
       </div>
@@ -569,9 +557,9 @@ a.map:active,a.tel:active{background:var(--c-bg);}
       </div>
       <div class="mt">
         <div class="stats stats-3">
-          <div class="s"><div class="n">1,523<span class="u">m</span></div><div class="l">標高<br>百名山15座目</div></div>
-          <div class="s"><div class="n">7:36</div><div class="l">コースタイム<br>休憩45分</div></div>
-          <div class="s"><div class="n">28</div><div class="l">コース定数<br>きつい</div></div>
+          <div class="s"><div class="n">1,523<span class="u">m</span></div><div class="l">百名山15座目</div></div>
+          <div class="s"><div class="n">7:36</div><div class="l">休憩45分</div></div>
+          <div class="s"><div class="n">28</div><div class="l">きつい</div></div>
         </div>
       </div>
       <div class="trail">
@@ -599,7 +587,7 @@ a.map:active,a.tel:active{background:var(--c-bg);}
         <div class="tl" data-t="16:45"><div class="t-start">16:45</div><div class="t-dur">1:00</div><div class="t-ico"><svg class="ic"><use href="#i-shop"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=THE%20GATE%20%E7%A6%8F%E4%BA%95%20%E3%82%B5%E3%83%B3%E3%83%87%E3%83%BC%E3%83%9E%E3%82%A6%E3%83%B3%E3%83%86%E3%83%B3" target="_blank" rel="noopener">THE GATE</a></div><div class="t-det">THE GATE MOUNTAIN併設。サンデーマウンテン直営、北陸最大級</div></div>
         <div class="sun set" data-t="17:24"><div class="s-t">17:24</div><div class="s-d"></div><div>日の入</div></div>
         <div class="tl" data-t="17:45"><div class="t-start">17:45</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-taxi"/></svg></div><div class="t-sum">タクシー→野乃福井</div><div class="t-det">THE GATEから移動</div></div>
-        <div class="tl" data-t="18:00"><div class="t-start">18:00</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E5%A4%A9%E7%84%B6%E6%B8%A9%E6%B3%89%20%E5%BE%A1%E5%AE%BF%20%E9%87%8E%E4%B9%83%20%E7%A6%8F%E4%BA%95" target="_blank" rel="noopener">御宿 野乃 福井</a> チェックイン</div><div class="t-det">予約番号<button class="copy" data-copy="RYa0n4v2zr">RYa0n4v2zr</button>、☎<a class="tel" href="tel:0776255489">0776-25-5489</a>。天然温泉。禁煙ツイン、朝食付、カード決済済み。荷物整理、登山装備を片付ける</div></div>
+        <div class="tl" data-t="18:00"><div class="t-start">18:00</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E5%A4%A9%E7%84%B6%E6%B8%A9%E6%B3%89%20%E5%BE%A1%E5%AE%BF%20%E9%87%8E%E4%B9%83%20%E7%A6%8F%E4%BA%95" target="_blank" rel="noopener">御宿 野乃 福井</a> チェックイン</div><div class="t-det">天然温泉。禁煙ツイン、朝食付、カード決済済み。荷物整理、登山装備を片付ける</div></div>
         <div class="tl" data-t="18:15"><div class="t-start">18:15</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-gift"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E7%A6%8F%E4%BA%95%E9%A7%85%E8%A5%BF%E5%8F%A3%20%E6%81%90%E7%AB%9C%E5%BA%83%E5%A0%B4" target="_blank" rel="noopener">恐竜広場</a>・ハピリン他</div><div class="t-det">動く恐竜オブジェは夜間ライトアップ。ジョイランドでゲーム、お土産もここで</div></div>
         <div class="tl stay" data-t="19:00"><div class="t-start">19:00</div><div class="t-dur">3:00</div><div class="t-ico"><svg class="ic"><use href="#i-bath"/></svg></div><div class="t-sum">夕食・入浴・自由</div><div class="t-det">福井駅前で夕食（ソースカツ丼、越前そば、地魚）。天然温泉の大浴場</div></div>
         <div class="tl stay" data-t="22:00"><div class="t-start">22:00</div><div class="t-dur">8:00</div><div class="t-ico"><svg class="ic"><use href="#i-moon"/></svg></div><div class="t-sum">就寝</div><div class="t-det">翌朝6:00起床</div></div>
@@ -637,9 +625,9 @@ a.map:active,a.tel:active{background:var(--c-bg);}
         <div class="tl" data-t="10:17"><div class="t-start">10:17</div><div class="t-dur">0:07</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">徒歩→バス停</div><div class="t-det">約418m</div></div>
         <div class="tl" data-t="10:24"><div class="t-start">10:24</div><div class="t-dur">0:41</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">京福バス［96］→芦原温泉</div><div class="t-det">三国・越前松島水族館・あわら湯のまち駅 経由</div></div>
         <div class="tl" data-t="11:05"><div class="t-start">11:05</div><div class="t-dur">0:24</div><div class="t-ico"><svg class="ic"><use href="#i-fork"/></svg></div><div class="t-sum">芦原温泉駅 乗り換え</div><div class="t-det">新幹線への乗換準備。<span class="hl">駅弁を調達</span></div></div>
-        <div class="tl" data-t="11:29"><div class="t-start">11:29</div><div class="t-dur">1:32</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか562号→上越妙高</div><div class="t-det">北陸新幹線・東京行。6号車7番A・B・C席。予約番号<button class="copy" data-copy="E98725">E98725</button></div></div>
+        <div class="tl" data-t="11:29"><div class="t-start">11:29</div><div class="t-dur">1:32</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか562号→上越妙高</div><div class="t-det">北陸新幹線・東京行。6号車7番A・B・C席</div></div>
         <div class="tl" data-t="13:01"><div class="t-start">13:01</div><div class="t-dur">0:08</div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">上越妙高駅 乗り換え</div><div class="t-det">在来線特急ホームへ</div></div>
-        <div class="tl" data-t="13:09"><div class="t-start">13:09</div><div class="t-dur">1:58</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき3号→新潟</div><div class="t-det">1号車3番A・B席・4番A席。予約番号<button class="copy" data-copy="E76137">E76137</button></div></div>
+        <div class="tl" data-t="13:09"><div class="t-start">13:09</div><div class="t-dur">1:58</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき3号→新潟</div><div class="t-det">1号車3番A・B席・4番A席</div></div>
         <div class="tl" data-t="15:07"><div class="t-start">15:07</div><div class="t-dur">0:23</div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum">新潟駅 到着</div><div class="t-det">駐車場で車を受け取り</div></div>
         <div class="tl stay" data-t="15:30"><div class="t-start">15:30</div><div class="t-dur">—</div><div class="t-ico"><svg class="ic"><use href="#i-car"/></svg></div><div class="t-sum">車→自宅</div><div class="t-det">お疲れさまでした</div></div>
       </div>
@@ -657,7 +645,6 @@ a.map:active,a.tel:active{background:var(--c-bg);}
 
 </div>
 
-<div class="toast" id="toast" role="status"></div>
 <script>
 (function(){
   "use strict";
@@ -728,29 +715,6 @@ a.map:active,a.tel:active{background:var(--c-bg);}
     });
   });
   refreshFold();
-
-  /* ── 予約番号をタップでコピー ── */
-  var toast = document.getElementById('toast'), toastTimer;
-  function showToast(msg){
-    toast.textContent = msg; toast.classList.add('show');
-    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 1600);
-  }
-  function fallbackCopy(text){
-    var ta = document.createElement('textarea');
-    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
-    var ok = false; try{ ok = document.execCommand('copy'); }catch(e){}
-    document.body.removeChild(ta); return ok;
-  }
-  [].slice.call(document.querySelectorAll('.copy')).forEach(function(b){
-    b.addEventListener('click', function(){
-      var text = b.getAttribute('data-copy');
-      function done(){ b.classList.add('done'); setTimeout(function(){ b.classList.remove('done'); }, 900); showToast(text + ' をコピーしました'); }
-      if (navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(text).then(done, function(){ if (fallbackCopy(text)) done(); });
-      } else if (fallbackCopy(text)) done();
-    });
-  });
 
   /* ── 出発までのカウントダウン ── */
   var DAYS = ['2026-10-10','2026-10-11','2026-10-12'];
