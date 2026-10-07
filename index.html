@@ -7,7 +7,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="福井しおり">
-<meta name="theme-color" content="#304F7E">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#304F7E">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1F1D19">
+<script>/* 旅行当日は表紙を小さく（描画前に判定） */
+(function(){var d=new Date(),k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");if(["2026-10-10","2026-10-11","2026-10-12"].indexOf(k)>=0)document.documentElement.classList.add("trip");})();</script>
 <title>福井旅行 2026.10.10-12</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,6 +102,17 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   font-variant-numeric:tabular-nums;
 }
 .cover-cap .count{margin-top:.1rem;font-size:.76rem;color:var(--ink-3);letter-spacing:.04em;}
+.cover-cap .count b{font-family:var(--font-display);font-weight:900;font-size:1.5rem;color:var(--brand);
+  margin:0 .15rem;vertical-align:-.12em;font-variant-numeric:tabular-nums;}
+/* 旅行当日：表紙を細い帯に */
+.trip .cover{display:flex;align-items:center;gap:.7rem;margin:.1rem 0 .3rem;filter:none;}
+.trip .cover-frame{flex:none;width:4.2rem;padding:3px;border-radius:12px;}
+.trip .cover-frame img{aspect-ratio:1;object-fit:cover;border-radius:9px;}
+.trip .cover-cap{padding:0;text-align:left;}
+.trip .cover-cap h1{font-size:1.1rem;}
+.trip .cover-cap .date{font-size:.72rem;margin-top:0;}
+.trip .cover-cap .count{font-size:.72rem;margin-top:0;}
+.trip .cover-cap .count b{font-size:1rem;vertical-align:0;}
 
 /* ───────── タブ ───────── */
 .tabs{
@@ -151,11 +165,13 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   padding:.28rem .7rem;border-radius:999px;letter-spacing:.02em;
 }
 .tag .ic{font-size:.95rem;}
+.tag.only{padding:0;width:2rem;height:2rem;justify-content:center;}
+.tag.only .ic{font-size:1.1rem;}
 .card-title{font-family:var(--font-display);font-weight:700;font-size:1.02rem;line-height:1.3;}
 
-.day1{--c:hsl(var(--h-d1),46%,32%);--c-bg:hsl(var(--h-d1),42%,94%);}
-.day2{--c:hsl(var(--h-d2),46%,36%);--c-bg:hsl(var(--h-d2),42%,94%);}
-.day3{--c:hsl(var(--h-d3),52%,42%);--c-bg:hsl(var(--h-d3),52%,94%);}
+.day1{--c:hsl(var(--h-d1),46%,32%);--c-bg:hsl(var(--h-d1),42%,94%);--c-tint:hsl(var(--h-d1),42%,97%);}
+.day2{--c:hsl(var(--h-d2),46%,36%);--c-bg:hsl(var(--h-d2),42%,94%);--c-tint:hsl(var(--h-d2),42%,97%);}
+.day3{--c:hsl(var(--h-d3),52%,42%);--c-bg:hsl(var(--h-d3),52%,94%);--c-tint:hsl(var(--h-d3),52%,97%);}
 .pack{--c:hsl(var(--h-pack),52%,36%);--c-bg:hsl(var(--h-pack),50%,93%);}
 
 /* ───────── 山データ（登山日のカード上部） ───────── */
@@ -227,9 +243,43 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
 }
 .hl{font-weight:700;color:var(--c);background:var(--c-bg);padding:.05rem .3rem;border-radius:5px;}
 .warn{font-weight:700;color:var(--alert);}
+a.tel,.copy{white-space:nowrap;}
+a.map,a.tel{color:inherit;text-decoration:underline dotted var(--c);text-decoration-thickness:2px;
+  text-underline-offset:4px;-webkit-tap-highlight-color:transparent;}
+a.map:active,a.tel:active{background:var(--c-bg);}
+.copy{
+  font:inherit;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.03em;
+  background:var(--panel);border:1px dashed var(--c);border-radius:6px;
+  padding:0 .35rem;margin:0 .1rem;line-height:1.5;cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.copy:active,.copy.done{background:var(--c);color:var(--panel);border-style:solid;}
+.toast{
+  position:fixed;left:50%;bottom:calc(1.4rem + env(safe-area-inset-bottom));z-index:60;
+  transform:translate(-50%,.6rem);opacity:0;pointer-events:none;
+  background:var(--ink);color:var(--paper);font-size:.78rem;font-weight:700;
+  padding:.45rem 1rem;border-radius:999px;white-space:nowrap;transition:opacity .2s,transform .2s;
+}
+.toast.show{opacity:1;transform:translate(-50%,0);}
 .tl.stay{background:hsla(var(--h-base),30%,50%,.05);}
-.tl.hike{background:hsla(var(--h-base),30%,50%,.05);}
-.tl.now{background:hsla(var(--h-d2),70%,50%,.10);}
+.tl.hike{background:var(--c-tint);}
+.tl.hike::before{ /* 登山区間は背骨を日の色で太く */
+  content:"";position:absolute;top:0;bottom:0;
+  left:calc(var(--row-pad) + var(--col-time) + var(--col-gap) + var(--col-ico)/2 - 2px);
+  width:4px;background:var(--c);opacity:.55;
+}
+.tl.hike .t-ico{background:var(--c-tint);position:relative;z-index:1;}
+.tl.now{background:var(--c-bg);box-shadow:inset 4px 0 0 var(--c);}
+.tl.past,.sun.past{opacity:.4;}
+.sun{
+  position:relative;display:grid;grid-template-columns:var(--col-time) var(--col-ico) 1fr;
+  column-gap:var(--col-gap);align-items:center;
+  padding:.15rem var(--row-pad);border-bottom:1px dashed var(--line-soft);
+  font-size:.72rem;line-height:22px;color:var(--ink-3);letter-spacing:.04em;
+}
+.sun .s-t{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;}
+.sun .s-d{justify-self:center;width:.55rem;height:.55rem;border-radius:50%;
+  background:var(--panel);border:2px solid var(--ink-3);position:relative;z-index:1;}
+.sun.set .s-d{background:var(--ink-3);}
 .tl.now::after{
   content:"今ここ";position:absolute;right:.6rem;top:.35rem;
   font-size:.62rem;font-weight:700;color:#fff;background:var(--c);
@@ -268,8 +318,17 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
 .item .txt small{display:block;font-size:.76rem;font-weight:400;color:var(--ink-3);line-height:1.55;margin-top:.05rem;}
 .item.checked .txt{text-decoration:line-through;color:var(--ink-3);}
 .item.checked .txt small{color:var(--ink-3);}
+.fold{
+  margin-left:auto;font-family:var(--font-body);font-size:.7rem;font-weight:700;color:var(--ink-2);
+  background:none;border:1px solid var(--line);border-radius:999px;padding:.12rem .65rem;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.fold[aria-pressed="true"]{color:var(--c);border-color:var(--c);}
+.hide-done .item.checked:not(.just),.hide-done .cat.done{display:none;}
+.all-done{display:none;padding:1.1rem .75rem;text-align:center;font-size:.86rem;font-weight:700;color:var(--c);}
+.hide-done.complete .all-done{display:block;}
 .counter{
-  margin-left:auto;font-size:.74rem;font-weight:700;color:var(--c);
+  margin-left:0;font-size:.74rem;font-weight:700;color:var(--c);
   background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.1rem .6rem;
   font-variant-numeric:tabular-nums;
 }
@@ -305,11 +364,12 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
     --alert:     hsl(14, 70%, 64%);
   }
   body{background-image:radial-gradient(hsla(var(--h-base),20%,70%,.07) 1.1px, transparent 1.1px);}
-  .day1{--c:hsl(var(--h-d1),48%,60%);--c-bg:hsl(var(--h-d1),26%,18%);}
-  .day2{--c:hsl(var(--h-d2),52%,64%);--c-bg:hsl(var(--h-d2),26%,19%);}
-  .day3{--c:hsl(var(--h-d3),58%,64%);--c-bg:hsl(var(--h-d3),28%,19%);}
+  .day1{--c:hsl(var(--h-d1),48%,60%);--c-bg:hsl(var(--h-d1),26%,18%);--c-tint:hsl(var(--h-d1),26%,16%);}
+  .day2{--c:hsl(var(--h-d2),52%,64%);--c-bg:hsl(var(--h-d2),26%,19%);--c-tint:hsl(var(--h-d2),26%,17%);}
+  .day3{--c:hsl(var(--h-d3),58%,64%);--c-bg:hsl(var(--h-d3),28%,19%);--c-tint:hsl(var(--h-d3),28%,17%);}
   .pack{--c:hsl(var(--h-pack),55%,60%);--c-bg:hsl(var(--h-pack),26%,18%);}
   .tab-btn.active{color:hsl(var(--h-base),15%,10%);}
+  .cover-frame img{filter:brightness(.86) saturate(.95);}
   .tl.now::after,.tag{color:hsl(var(--h-base),15%,10%);}
 }
 </style>
@@ -386,6 +446,7 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
     <div class="card pack">
       <div class="card-head">
         <span class="tag"><svg class="ic"><use href="#i-bag"/></svg>持ち物</span>
+        <button class="fold" type="button" aria-pressed="false">済みを隠す</button>
         <span class="counter"></span>
       </div>
 
@@ -413,6 +474,7 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
       <div class="item"><span class="box"></span><span class="txt">シャンプー・保湿・洗剤</span></div>
       <div class="item"><span class="box"></span><span class="txt">ティッシュ・ウェット</span></div>
       <div class="item"><span class="box"></span><span class="txt">体温計・坐薬・ロコイド</span></div>
+      <div class="all-done">すべて準備完了</div>
 
     </div>
 
@@ -464,25 +526,27 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   <div class="tab-panel" id="day1">
     <div class="card day1" data-date="2026-10-10">
       <div class="card-head">
-        <span class="tag"><svg class="ic"><use href="#i-foot"/></svg>10/10（土）</span>
+        <span class="tag only" aria-label="10/10（土）"><svg class="ic"><use href="#i-foot"/></svg></span>
         <div class="card-title">恐竜博物館へ</div>
       </div>
       <div class="trail">
+        <div class="sun" data-t="05:55"><div class="s-t">5:55</div><div class="s-d"></div><div>日の出</div></div>
         <div class="tl" data-t="06:00"><div class="t-start">6:00</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-sun"/></svg></div><div class="t-sum">起床・出発準備</div><div class="t-det">荷物は前夜のうちに玄関へ</div></div>
         <div class="tl" data-t="06:45"><div class="t-start">6:45</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-car"/></svg></div><div class="t-sum">車→新潟駅</div><div class="t-det">駅の駐車場は2泊3日ぶん</div></div>
         <div class="tl" data-t="07:15"><div class="t-start">7:15</div><div class="t-dur">0:20</div><div class="t-ico"><svg class="ic"><use href="#i-clock"/></svg></div><div class="t-sum">新潟駅 着</div><div class="t-det">きっぷの確認</div></div>
         <div class="tl" data-t="07:35"><div class="t-start">7:35</div><div class="t-dur">2:04</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき2号→上越妙高</div><div class="t-det">新井行</div></div>
         <div class="tl" data-t="09:39"><div class="t-start">9:39</div><div class="t-dur">0:18</div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">上越妙高駅 乗り換え</div><div class="t-det">新幹線ホームへ移動</div></div>
-        <div class="tl" data-t="09:57"><div class="t-start">9:57</div><div class="t-dur">1:04</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか553号→金沢</div><div class="t-det">北陸新幹線・金沢行。6号車13番A・B・C席</div></div>
-        <div class="tl" data-t="11:01"><div class="t-start">11:01</div><div class="t-dur">0:04</div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">金沢駅 乗り換え</div><div class="t-det"><span class="hl">乗換4分</span>。新幹線ホーム内で つるぎ19号 へ</div></div>
-        <div class="tl" data-t="11:05"><div class="t-start">11:05</div><div class="t-dur">0:35</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">つるぎ19号→福井</div><div class="t-det">北陸新幹線・敦賀行。4号車3番A・B・C席</div></div>
+        <div class="tl" data-t="09:57"><div class="t-start">9:57</div><div class="t-dur">1:04</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか553号→金沢</div><div class="t-det">北陸新幹線・金沢行。6号車13番A・B・C席。予約番号<button class="copy" data-copy="E92251">E92251</button></div></div>
+        <div class="tl" data-t="11:01"><div class="t-start">11:01</div><div class="t-dur"></div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">金沢駅 乗り換え</div><div class="t-det"><span class="hl">乗換4分</span>。新幹線ホーム内で つるぎ19号 へ</div></div>
+        <div class="tl" data-t="11:05"><div class="t-start">11:05</div><div class="t-dur">0:35</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">つるぎ19号→福井</div><div class="t-det">北陸新幹線・敦賀行。4号車3番A・B・C席。予約番号<button class="copy" data-copy="E92251">E92251</button></div></div>
         <div class="tl" data-t="11:40"><div class="t-start">11:40</div><div class="t-dur">0:10</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">徒歩→東口3番乗り場</div><div class="t-det"><span class="warn">乗換10分</span>。下車後まっすぐ向かう</div></div>
-        <div class="tl" data-t="11:50"><div class="t-start">11:50</div><div class="t-dur">0:55</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">WOW RIDE→恐竜博物館</div><div class="t-det">2号車・予約済み。大人2・小人1、恐竜博物館の観覧券つき</div></div>
-        <div class="tl" data-t="12:45"><div class="t-start">12:45</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum">到着・野外恐竜博物館の受付</div><div class="t-det">集合までの時間で館内を下見</div></div>
+        <div class="tl" data-t="11:50"><div class="t-start">11:50</div><div class="t-dur">0:55</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">WOW RIDE→恐竜博物館</div><div class="t-det">2号車・照会番号<button class="copy" data-copy="0065815">0065815</button>。大人2・小人1、恐竜博物館の観覧券つき</div></div>
+        <div class="tl" data-t="12:45"><div class="t-start">12:45</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum">到着・<a class="map" href="https://www.google.com/maps/search/?api=1&query=%E7%A6%8F%E4%BA%95%E7%9C%8C%E7%AB%8B%E6%81%90%E7%AB%9C%E5%8D%9A%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">野外恐竜博物館</a>の受付</div><div class="t-det">集合までの時間で館内を下見</div></div>
         <div class="tl" data-t="13:30"><div class="t-start">13:30</div><div class="t-dur">2:00</div><div class="t-ico"><svg class="ic"><use href="#i-foot"/></svg></div><div class="t-sum">野外ツアー「1班」</div><div class="t-det">化石発掘体験。<span class="warn">この券では常設展を観覧できない</span>ので、常設展はWOW RIDEの観覧券で入る</div></div>
         <div class="tl" data-t="15:30"><div class="t-start">15:30</div><div class="t-dur">1:30</div><div class="t-ico"><svg class="ic"><use href="#i-eye"/></svg></div><div class="t-sum">常設展（本館）を観覧</div><div class="t-det">WOW RIDE のオプションで買った観覧券を使う。フクイラプトルなど</div></div>
         <div class="tl" data-t="17:00"><div class="t-start">17:00</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-taxi"/></svg></div><div class="t-sum">タクシー→勝山ニューホテル</div><div class="t-det">閉館に合わせて館内から配車。約10分</div></div>
-        <div class="tl stay" data-t="17:15"><div class="t-start">17:15</div><div class="t-dur">4:45</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum">勝山ニューホテル</div><div class="t-det">ニュースタンダードツイン、大人2・子供1。予約上のチェックインは18:00。朝食付6:30〜10:00、大浴場17:00〜23:00。<span class="warn">夕食なし</span>。夕食はハニー新鮮館かコンビニで調達。<span class="warn">翌日7:00のタクシーを予約</span>。登山準備</div></div>
+        <div class="tl stay" data-t="17:15"><div class="t-start">17:15</div><div class="t-dur">4:45</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E5%8B%9D%E5%B1%B1%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%9B%E3%83%86%E3%83%AB" target="_blank" rel="noopener">勝山ニューホテル</a></div><div class="t-det">予約番号<button class="copy" data-copy="RYa0n4rwpg">RYa0n4rwpg</button>、☎<a class="tel" href="tel:0779882110">0779-88-2110</a>。ニュースタンダードツイン、大人2・子供1。予約上のチェックインは18:00。朝食付6:30〜10:00、大浴場17:00〜23:00。<span class="warn">夕食なし</span>。夕食はハニー新鮮館かコンビニで調達。<span class="warn">翌日7:00のタクシーを予約</span>。登山準備</div></div>
+        <div class="sun set" data-t="17:26"><div class="s-t">17:26</div><div class="s-d"></div><div>日の入</div></div>
         <div class="tl stay" data-t="22:00"><div class="t-start">22:00</div><div class="t-dur">8:00</div><div class="t-ico"><svg class="ic"><use href="#i-moon"/></svg></div><div class="t-sum">就寝</div><div class="t-det">翌朝6:00起床</div></div>
       </div>
       <div class="note">
@@ -500,7 +564,7 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   <div class="tab-panel" id="day2">
     <div class="card day2" data-date="2026-10-11">
       <div class="card-head">
-        <span class="tag"><svg class="ic"><use href="#i-mtn"/></svg>10/11（日）</span>
+        <span class="tag only" aria-label="10/11（日）"><svg class="ic"><use href="#i-mtn"/></svg></span>
         <div class="card-title">荒島岳 登山 → 福井駅前</div>
       </div>
       <div class="mt">
@@ -511,30 +575,32 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
         </div>
       </div>
       <div class="trail">
+        <div class="sun" data-t="05:56"><div class="s-t">5:56</div><div class="s-d"></div><div>日の出</div></div>
         <div class="tl" data-t="06:00"><div class="t-start">6:00</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-sun"/></svg></div><div class="t-sum">起床</div></div>
         <div class="tl" data-t="06:30"><div class="t-start">6:30</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-fork"/></svg></div><div class="t-sum">朝食ビュッフェ</div><div class="t-det">レストラン 6:30〜10:00（L.O.9:30）</div></div>
         <div class="tl" data-t="07:00"><div class="t-start">7:00</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-taxi"/></svg></div><div class="t-sum">タクシー→勝原登山口</div><div class="t-det"><span class="warn">前日までに要予約</span>。早朝のため当日手配は期待できない。この1本がないと荒島岳に立てない</div></div>
-        <div class="tl" data-t="07:30"><div class="t-start">7:30</div><div class="t-dur">0:03</div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum">勝原登山口 駐車場・トイレ</div><div class="t-det">下車・支度</div></div>
+        <div class="tl" data-t="07:30"><div class="t-start">7:30</div><div class="t-dur"></div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E8%8D%92%E5%B3%B6%E5%B2%B3%20%E5%8B%9D%E5%8E%9F%E7%99%BB%E5%B1%B1%E5%8F%A3" target="_blank" rel="noopener">勝原登山口</a> 駐車場・トイレ</div><div class="t-det">下車・支度</div></div>
         <div class="tl hike" data-t="07:33"><div class="t-start">7:33</div><div class="t-dur">1:00</div><div class="t-ico"><svg class="ic"><use href="#i-up"/></svg></div><div class="t-sum">勝原登山口（登山開始）</div><div class="t-det">旧スキー場のゲレンデ跡を登る</div></div>
         <div class="tl hike" data-t="08:33"><div class="t-start">8:33</div><div class="t-dur">1:03</div><div class="t-ico"><svg class="ic"><use href="#i-up"/></svg></div><div class="t-sum">元リフト終点</div><div class="t-det">ここから登山道へ。途中の分岐は2つとも通過</div></div>
         <div class="tl hike" data-t="09:36"><div class="t-start">9:36</div><div class="t-dur">0:55</div><div class="t-ico"><svg class="ic"><use href="#i-up"/></svg></div><div class="t-sum">深谷ノ頭</div><div class="t-det">15分休憩して9:51発</div></div>
         <div class="tl hike" data-t="10:31"><div class="t-start">10:31</div><div class="t-dur">0:47</div><div class="t-ico"><svg class="ic"><use href="#i-up"/></svg></div><div class="t-sum">シャクナゲ平</div><div class="t-det">ここから山頂への登りが本番</div></div>
-        <div class="tl hike" data-t="11:18"><div class="t-start">11:18</div><div class="t-dur">0:03</div><div class="t-ico"><svg class="ic"><use href="#i-up"/></svg></div><div class="t-sum">前荒島岳</div></div>
+        <div class="tl hike" data-t="11:18"><div class="t-start">11:18</div><div class="t-dur"></div><div class="t-ico"><svg class="ic"><use href="#i-up"/></svg></div><div class="t-sum">前荒島岳</div></div>
         <div class="tl hike" data-t="11:21"><div class="t-start">11:21</div><div class="t-dur">0:20</div><div class="t-ico"><svg class="ic"><use href="#i-up"/></svg></div><div class="t-sum">中荒島岳</div></div>
-        <div class="tl hike" data-t="11:41"><div class="t-start">11:41</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-summit"/></svg></div><div class="t-sum">荒島岳 山頂（1,523m）</div><div class="t-det">日本百名山 通算15座目。15分休憩・昼食</div></div>
+        <div class="tl hike" data-t="11:41"><div class="t-start">11:41</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-summit"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E8%8D%92%E5%B3%B6%E5%B2%B3" target="_blank" rel="noopener">荒島岳 山頂</a>（1,523m）</div><div class="t-det">日本百名山 通算15座目。15分休憩・昼食</div></div>
         <div class="tl hike" data-t="11:56"><div class="t-start">11:56</div><div class="t-dur">0:56</div><div class="t-ico"><svg class="ic"><use href="#i-down"/></svg></div><div class="t-sum">下山開始</div><div class="t-det">中荒島岳12:11・前荒島岳12:14を経由してシャクナゲ平へ</div></div>
         <div class="tl hike" data-t="12:52"><div class="t-start">12:52</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-down"/></svg></div><div class="t-sum">シャクナゲ平</div></div>
         <div class="tl hike" data-t="13:22"><div class="t-start">13:22</div><div class="t-dur">1:01</div><div class="t-ico"><svg class="ic"><use href="#i-down"/></svg></div><div class="t-sum">深谷ノ頭</div><div class="t-det">15分休憩して13:37発</div></div>
         <div class="tl hike" data-t="14:23"><div class="t-start">14:23</div><div class="t-dur">0:40</div><div class="t-ico"><svg class="ic"><use href="#i-down"/></svg></div><div class="t-sum">元リフト終点</div><div class="t-det">ゲレンデ跡の下り。膝と転倒に注意</div></div>
-        <div class="tl hike" data-t="15:03"><div class="t-start">15:03</div><div class="t-dur">0:03</div><div class="t-ico"><svg class="ic"><use href="#i-down"/></svg></div><div class="t-sum">勝原登山口（下山完了）</div></div>
+        <div class="tl hike" data-t="15:03"><div class="t-start">15:03</div><div class="t-dur"></div><div class="t-ico"><svg class="ic"><use href="#i-down"/></svg></div><div class="t-sum">勝原登山口（下山完了）</div></div>
         <div class="tl" data-t="15:06"><div class="t-start">15:06</div><div class="t-dur">0:09</div><div class="t-ico"><svg class="ic"><use href="#i-clock"/></svg></div><div class="t-sum">駐車場・トイレ</div><div class="t-det">着替えてタクシーを待つ</div></div>
         <div class="tl" data-t="15:15"><div class="t-start">15:15</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-taxi"/></svg></div><div class="t-sum">タクシー→結ステーション</div><div class="t-det">勝原登山口から道の駅 越前おおの 結ステーションへ。下山時刻が読めないので、山頂で連絡できるようにしておく</div></div>
-        <div class="tl" data-t="15:30"><div class="t-start">15:30</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-gift"/></svg></div><div class="t-sum">結ステーション</div><div class="t-det">荒島岳の登山バッジを購入</div></div>
+        <div class="tl" data-t="15:30"><div class="t-start">15:30</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-gift"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E8%B6%8A%E5%89%8D%E3%81%8A%E3%81%8A%E3%81%AE%20%E7%B5%90%E3%82%B9%E3%83%86%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3" target="_blank" rel="noopener">結ステーション</a></div><div class="t-det">荒島岳の登山バッジを購入</div></div>
         <div class="tl" data-t="15:45"><div class="t-start">15:45</div><div class="t-dur">1:00</div><div class="t-ico"><svg class="ic"><use href="#i-taxi"/></svg></div><div class="t-sum">タクシー→THE GATE</div><div class="t-det">越前おおの 結ステーションから</div></div>
-        <div class="tl" data-t="16:45"><div class="t-start">16:45</div><div class="t-dur">1:00</div><div class="t-ico"><svg class="ic"><use href="#i-shop"/></svg></div><div class="t-sum">THE GATE</div><div class="t-det">THE GATE MOUNTAIN併設。サンデーマウンテン直営、北陸最大級</div></div>
+        <div class="tl" data-t="16:45"><div class="t-start">16:45</div><div class="t-dur">1:00</div><div class="t-ico"><svg class="ic"><use href="#i-shop"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=THE%20GATE%20%E7%A6%8F%E4%BA%95%20%E3%82%B5%E3%83%B3%E3%83%87%E3%83%BC%E3%83%9E%E3%82%A6%E3%83%B3%E3%83%86%E3%83%B3" target="_blank" rel="noopener">THE GATE</a></div><div class="t-det">THE GATE MOUNTAIN併設。サンデーマウンテン直営、北陸最大級</div></div>
+        <div class="sun set" data-t="17:24"><div class="s-t">17:24</div><div class="s-d"></div><div>日の入</div></div>
         <div class="tl" data-t="17:45"><div class="t-start">17:45</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-taxi"/></svg></div><div class="t-sum">タクシー→野乃福井</div><div class="t-det">THE GATEから移動</div></div>
-        <div class="tl" data-t="18:00"><div class="t-start">18:00</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum">御宿 野乃 福井 チェックイン</div><div class="t-det">天然温泉。禁煙ツイン、朝食付、カード決済済み。荷物整理、登山装備を片付ける</div></div>
-        <div class="tl" data-t="18:15"><div class="t-start">18:15</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-gift"/></svg></div><div class="t-sum">恐竜広場・ハピリン他</div><div class="t-det">動く恐竜オブジェは夜間ライトアップ。ジョイランドでゲーム、お土産もここで</div></div>
+        <div class="tl" data-t="18:00"><div class="t-start">18:00</div><div class="t-dur">0:15</div><div class="t-ico"><svg class="ic"><use href="#i-lodge"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E5%A4%A9%E7%84%B6%E6%B8%A9%E6%B3%89%20%E5%BE%A1%E5%AE%BF%20%E9%87%8E%E4%B9%83%20%E7%A6%8F%E4%BA%95" target="_blank" rel="noopener">御宿 野乃 福井</a> チェックイン</div><div class="t-det">予約番号<button class="copy" data-copy="RYa0n4v2zr">RYa0n4v2zr</button>、☎<a class="tel" href="tel:0776255489">0776-25-5489</a>。天然温泉。禁煙ツイン、朝食付、カード決済済み。荷物整理、登山装備を片付ける</div></div>
+        <div class="tl" data-t="18:15"><div class="t-start">18:15</div><div class="t-dur">0:45</div><div class="t-ico"><svg class="ic"><use href="#i-gift"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E7%A6%8F%E4%BA%95%E9%A7%85%E8%A5%BF%E5%8F%A3%20%E6%81%90%E7%AB%9C%E5%BA%83%E5%A0%B4" target="_blank" rel="noopener">恐竜広場</a>・ハピリン他</div><div class="t-det">動く恐竜オブジェは夜間ライトアップ。ジョイランドでゲーム、お土産もここで</div></div>
         <div class="tl stay" data-t="19:00"><div class="t-start">19:00</div><div class="t-dur">3:00</div><div class="t-ico"><svg class="ic"><use href="#i-bath"/></svg></div><div class="t-sum">夕食・入浴・自由</div><div class="t-det">福井駅前で夕食（ソースカツ丼、越前そば、地魚）。天然温泉の大浴場</div></div>
         <div class="tl stay" data-t="22:00"><div class="t-start">22:00</div><div class="t-dur">8:00</div><div class="t-ico"><svg class="ic"><use href="#i-moon"/></svg></div><div class="t-sum">就寝</div><div class="t-det">翌朝6:00起床</div></div>
       </div>
@@ -553,10 +619,11 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   <div class="tab-panel" id="day3">
     <div class="card day3" data-date="2026-10-12">
       <div class="card-head">
-        <span class="tag"><svg class="ic"><use href="#i-ship"/></svg>10/12（月・祝）</span>
+        <span class="tag only" aria-label="10/12（月・祝）"><svg class="ic"><use href="#i-ship"/></svg></span>
         <div class="card-title">東尋坊 遊覧船 → 帰路</div>
       </div>
       <div class="trail">
+        <div class="sun" data-t="05:59"><div class="s-t">5:59</div><div class="s-d"></div><div>日の出</div></div>
         <div class="tl" data-t="06:00"><div class="t-start">6:00</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-sun"/></svg></div><div class="t-sum">起床</div></div>
         <div class="tl" data-t="06:30"><div class="t-start">6:30</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-fork"/></svg></div><div class="t-sum">朝食ビュッフェ</div></div>
         <div class="tl" data-t="07:00"><div class="t-start">7:00</div><div class="t-dur">0:23</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">徒歩→福井駅</div><div class="t-det">チェックアウトして駅まで徒歩数分</div></div>
@@ -565,14 +632,14 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
         <div class="tl" data-t="08:32"><div class="t-start">8:32</div><div class="t-dur">0:12</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">京福バス［84］→東尋坊</div><div class="t-det">東尋坊線・芦原温泉駅行</div></div>
         <div class="tl" data-t="08:44"><div class="t-start">8:44</div><div class="t-dur">0:06</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">徒歩→東尋坊</div><div class="t-det">約450m</div></div>
         <div class="tl" data-t="08:50"><div class="t-start">8:50</div><div class="t-dur">0:10</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">徒歩→遊覧船乗り場</div><div class="t-det">商店街を抜けて階段を下る</div></div>
-        <div class="tl" data-t="09:00"><div class="t-start">9:00</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-ship"/></svg></div><div class="t-sum">東尋坊観光遊覧船（始発便）</div><div class="t-det"><span class="hl">09:00発</span>。大池や雄島の断崖を海から見上げる30分。当日券。<span class="warn">波が高いと欠航</span>するので前夜・当日朝に運航状況を確認</div></div>
+        <div class="tl" data-t="09:00"><div class="t-start">9:00</div><div class="t-dur">0:30</div><div class="t-ico"><svg class="ic"><use href="#i-ship"/></svg></div><div class="t-sum"><a class="map" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E5%B0%8B%E5%9D%8A%E8%A6%B3%E5%85%89%E9%81%8A%E8%A6%A7%E8%88%B9" target="_blank" rel="noopener">東尋坊観光遊覧船</a>（始発便）</div><div class="t-det"><span class="hl">09:00発</span>。大池や雄島の断崖を海から見上げる30分。当日券。<span class="warn">波が高いと欠航</span>するので前夜・当日朝に運航状況を確認</div></div>
         <div class="tl" data-t="09:30"><div class="t-start">9:30</div><div class="t-dur">0:47</div><div class="t-ico"><svg class="ic"><use href="#i-eye"/></svg></div><div class="t-sum">崖の上の散策・商店街で軽食</div><div class="t-det">階段を上って絶景を上からも。食べ歩き</div></div>
         <div class="tl" data-t="10:17"><div class="t-start">10:17</div><div class="t-dur">0:07</div><div class="t-ico"><svg class="ic"><use href="#i-walk"/></svg></div><div class="t-sum">徒歩→バス停</div><div class="t-det">約418m</div></div>
         <div class="tl" data-t="10:24"><div class="t-start">10:24</div><div class="t-dur">0:41</div><div class="t-ico"><svg class="ic"><use href="#i-bus"/></svg></div><div class="t-sum">京福バス［96］→芦原温泉</div><div class="t-det">三国・越前松島水族館・あわら湯のまち駅 経由</div></div>
         <div class="tl" data-t="11:05"><div class="t-start">11:05</div><div class="t-dur">0:24</div><div class="t-ico"><svg class="ic"><use href="#i-fork"/></svg></div><div class="t-sum">芦原温泉駅 乗り換え</div><div class="t-det">新幹線への乗換準備。<span class="hl">駅弁を調達</span></div></div>
-        <div class="tl" data-t="11:29"><div class="t-start">11:29</div><div class="t-dur">1:32</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか562号→上越妙高</div><div class="t-det">北陸新幹線・東京行。6号車7番A・B・C席</div></div>
+        <div class="tl" data-t="11:29"><div class="t-start">11:29</div><div class="t-dur">1:32</div><div class="t-ico"><svg class="ic"><use href="#i-bullet"/></svg></div><div class="t-sum">はくたか562号→上越妙高</div><div class="t-det">北陸新幹線・東京行。6号車7番A・B・C席。予約番号<button class="copy" data-copy="E98725">E98725</button></div></div>
         <div class="tl" data-t="13:01"><div class="t-start">13:01</div><div class="t-dur">0:08</div><div class="t-ico"><svg class="ic"><use href="#i-swap"/></svg></div><div class="t-sum">上越妙高駅 乗り換え</div><div class="t-det">在来線特急ホームへ</div></div>
-        <div class="tl" data-t="13:09"><div class="t-start">13:09</div><div class="t-dur">1:58</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき3号→新潟</div><div class="t-det">1号車3番A・B席・4番A席</div></div>
+        <div class="tl" data-t="13:09"><div class="t-start">13:09</div><div class="t-dur">1:58</div><div class="t-ico"><svg class="ic"><use href="#i-train"/></svg></div><div class="t-sum">しらゆき3号→新潟</div><div class="t-det">1号車3番A・B席・4番A席。予約番号<button class="copy" data-copy="E76137">E76137</button></div></div>
         <div class="tl" data-t="15:07"><div class="t-start">15:07</div><div class="t-dur">0:23</div><div class="t-ico"><svg class="ic"><use href="#i-pin"/></svg></div><div class="t-sum">新潟駅 到着</div><div class="t-det">駐車場で車を受け取り</div></div>
         <div class="tl stay" data-t="15:30"><div class="t-start">15:30</div><div class="t-dur">—</div><div class="t-ico"><svg class="ic"><use href="#i-car"/></svg></div><div class="t-sum">車→自宅</div><div class="t-det">お疲れさまでした</div></div>
       </div>
@@ -590,6 +657,7 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
 
 </div>
 
+<div class="toast" id="toast" role="status"></div>
 <script>
 (function(){
   "use strict";
@@ -626,10 +694,63 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
     item.addEventListener('click', function(){
       var on = item.classList.toggle('checked');
       if (on) state[key] = 1; else delete state[key];
-      save(); refreshCounters();
+      if (on){ item.classList.add('just'); setTimeout(function(){ item.classList.remove('just'); refreshFold(); }, 450); }
+      save(); refreshCounters(); refreshFold();
     });
   });
   refreshCounters();
+
+  /* ── チェック済みを折りたたむ（端末に保存） ── */
+  var hideDone = false;
+  try{ hideDone = localStorage.getItem(NS+'hideDone') === '1'; }catch(e){}
+  function refreshFold(){
+    [].slice.call(document.querySelectorAll('.fold')).forEach(function(b){
+      var card = b.closest('.card');
+      var items = [].slice.call(card.querySelectorAll('.item'));
+      var done = items.filter(function(i){ return i.classList.contains('checked'); }).length;
+      card.classList.toggle('hide-done', hideDone);
+      card.classList.toggle('complete', done === items.length);
+      b.setAttribute('aria-pressed', hideDone ? 'true' : 'false');
+      b.textContent = hideDone ? '済みを表示' + (done ? '（' + done + '）' : '') : '済みを隠す';
+      /* 全部済んだ分類は見出しごと隠す */
+      [].slice.call(card.querySelectorAll('.cat')).forEach(function(c){
+        var all = true, n = c.nextElementSibling;
+        while (n && n.classList.contains('item')){ if (!n.classList.contains('checked') || n.classList.contains('just')) all = false; n = n.nextElementSibling; }
+        c.classList.toggle('done', all);
+      });
+    });
+  }
+  [].slice.call(document.querySelectorAll('.fold')).forEach(function(b){
+    b.addEventListener('click', function(){
+      hideDone = !hideDone;
+      try{ localStorage.setItem(NS+'hideDone', hideDone ? '1' : '0'); }catch(e){}
+      refreshFold();
+    });
+  });
+  refreshFold();
+
+  /* ── 予約番号をタップでコピー ── */
+  var toast = document.getElementById('toast'), toastTimer;
+  function showToast(msg){
+    toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 1600);
+  }
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+    var ok = false; try{ ok = document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta); return ok;
+  }
+  [].slice.call(document.querySelectorAll('.copy')).forEach(function(b){
+    b.addEventListener('click', function(){
+      var text = b.getAttribute('data-copy');
+      function done(){ b.classList.add('done'); setTimeout(function(){ b.classList.remove('done'); }, 900); showToast(text + ' をコピーしました'); }
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done, function(){ if (fallbackCopy(text)) done(); });
+      } else if (fallbackCopy(text)) done();
+    });
+  });
 
   /* ── 出発までのカウントダウン ── */
   var DAYS = ['2026-10-10','2026-10-11','2026-10-12'];
@@ -641,28 +762,45 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   if (el){
     var idx = DAYS.indexOf(todayKey());
     if (idx >= 0){
-      el.textContent = '旅の ' + (idx+1) + ' 日目';
+      el.innerHTML = '旅の<b>' + (idx+1) + '</b>日目';
     } else {
       var diff = Math.ceil((new Date('2026-10-10T00:00:00') - new Date()) / 86400000);
-      el.textContent = diff > 0 ? '出発まで あと ' + diff + ' 日' : '';
+      el.innerHTML = diff > 0 ? '出発まで あと<b>' + diff + '</b>日' : '';
     }
   }
 
   /* ── 当日は「今ここ」を自動表示 ── */
+  function toMin(r){ var p = r.getAttribute('data-t').split(':'); return (+p[0])*60 + (+p[1]); }
   function markNow(){
     [].slice.call(document.querySelectorAll('.tl.now')).forEach(function(r){ r.classList.remove('now'); });
+    [].slice.call(document.querySelectorAll('.past')).forEach(function(r){ r.classList.remove('past'); });
     var key = todayKey(), i = DAYS.indexOf(key);
-    if (i < 0) return;
-    var card = document.querySelector('.card[data-date="' + key + '"]');
-    if (!card) return;
+    if (i < 0) return null;            /* 旅行前・旅行後は何もしない（全て元の濃さ） */
     var now  = new Date(), mins = now.getHours()*60 + now.getMinutes();
-    var rows = [].slice.call(card.querySelectorAll('.tl[data-t]'));
     var cur  = null;
-    rows.forEach(function(r){
-      var p = r.getAttribute('data-t').split(':');
-      if ((+p[0])*60 + (+p[1]) <= mins) cur = r;
+    [].slice.call(document.querySelectorAll('.card[data-date]')).forEach(function(card){
+      var d = card.getAttribute('data-date');
+      var rows = [].slice.call(card.querySelectorAll('[data-t]'));
+      if (d < key){ rows.forEach(function(r){ r.classList.add('past'); }); return; }
+      if (d > key) return;
+      var tl = rows.filter(function(r){ return r.classList.contains('tl'); });
+      tl.forEach(function(r){ if (toMin(r) <= mins) cur = r; });
+      if (cur) cur.classList.add('now');
+      var curMin = cur ? toMin(cur) : -1;
+      rows.forEach(function(r){
+        if (r === cur) return;
+        if (r.classList.contains('tl') ? toMin(r) < curMin : toMin(r) <= mins) r.classList.add('past');
+      });
     });
-    if (cur) cur.classList.add('now');
+    return cur;
+  }
+  /* 「今ここ」までスクロール（タブの下に収まるように） */
+  function scrollToNow(smooth){
+    var cur = document.querySelector('.tl.now');
+    if (!cur) return;
+    var tabs = document.querySelector('.tabs');
+    var y = cur.getBoundingClientRect().top + window.pageYOffset - (tabs ? tabs.offsetHeight : 0) - 70;
+    window.scrollTo({ top: Math.max(0, y), behavior: smooth ? 'smooth' : 'auto' });
   }
 
   /* ── 初期表示：旅行中はその日のタブ、それ以外は前回のタブ ── */
@@ -673,6 +811,13 @@ body::before{ /* iPhoneのノッチ／Dynamic Island下の帯 */
   if (openTab && document.getElementById(openTab)) activate(openTab, false);
 
   markNow();
+  if (di >= 0) requestAnimationFrame(function(){ scrollToNow(false); });
+  /* 旅行中に当日のタブを押したら「今ここ」へ */
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      if (di >= 0 && b.getAttribute('data-tab') === 'day' + (di+1)) setTimeout(function(){ scrollToNow(true); }, 30);
+    });
+  });
   setInterval(markNow, 60000);
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) markNow(); });
 })();
